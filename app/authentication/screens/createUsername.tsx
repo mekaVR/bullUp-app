@@ -1,10 +1,11 @@
 import { ThemedView } from "@/components/ThemedView";
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
+import GluestackButton from "@/components/ui/GluestackButton";
 
 export default function CreateUsername() {
   const [username, onChangeUsername] = useState("");
@@ -50,16 +51,13 @@ export default function CreateUsername() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.continueButton,
-            !Boolean(username) && styles.continueButtonDisabled,
-          ]}
+        <GluestackButton
+          title="Continuer"
+          variant="primary"
+          size="md"
           disabled={!Boolean(username)}
           onPress={getUserExist}
-        >
-          <ThemedText style={styles.continueButtonText}>Continuer</ThemedText>
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -98,21 +96,5 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 16,
-  },
-  continueButton: {
-    backgroundColor: Colors.light.primary,
-    height: 50,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  continueButtonDisabled: {
-    backgroundColor: "#ccc",
-    opacity: 0.5,
-  },
-  continueButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });

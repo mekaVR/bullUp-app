@@ -7,6 +7,7 @@ import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
+import GluestackButton from "@/components/ui/GluestackButton";
 
 export default function Login() {
   const [username, onChangeUsername] = useState("");
@@ -52,12 +53,12 @@ export default function Login() {
         </View>
       </ThemedView>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.loginButton}
+        <GluestackButton
+          title="Se connecter"
+          variant="primary"
+          size="md"
           onPress={() => signIn(username, password)}
-        >
-          <ThemedText style={styles.loginButtonText}>Login</ThemedText>
-        </TouchableOpacity>
+        />
       </View>
       <Link
         style={styles.forgotPasswordLink}
@@ -125,32 +126,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 16,
-  },
-  loginButton: {
-    backgroundColor: Colors.light.primary,
-    height: 50,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loginButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  secondaryButton: {
-    backgroundColor: "#FFFFFF",
-    height: 50,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: Colors.light.primary,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  secondaryButtonText: {
-    color: Colors.light.primary,
-    fontSize: 18,
-    fontWeight: "bold",
   },
   forgotPasswordLink: {
     marginTop: 16,

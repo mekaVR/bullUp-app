@@ -7,6 +7,7 @@ import { useSession } from "@/app/authentication/contexts/AuthContext";
 import BackButon from "@/components/ui/BackButton";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
+import GluestackButton from "@/components/ui/GluestackButton";
 
 export default function SignUp() {
   const [password, onChangePassword] = useState("");
@@ -76,14 +77,12 @@ export default function SignUp() {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.signUpButton}
+        <GluestackButton
+          title="Créer un compte"
+          variant="primary"
+          size="md"
           onPress={() => signUp(username, email, password)}
-        >
-          <ThemedText style={styles.signUpButtonText}>
-            Créer un compte
-          </ThemedText>
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -143,17 +142,5 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 16,
-  },
-  signUpButton: {
-    backgroundColor: Colors.light.primary,
-    height: 50,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  signUpButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });

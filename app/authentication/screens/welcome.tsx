@@ -3,6 +3,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
+import GluestackButton from "@/components/ui/GluestackButton";
 
 export default function Welcome() {
   const router = useRouter();
@@ -18,16 +19,14 @@ export default function Welcome() {
       </ThemedView>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.primaryButton}
+        <GluestackButton
+          title="Créer un compte"
+          variant="primary"
+          size="lg"
           onPress={() =>
             router.navigate("/authentication/screens/createUsername")
           }
-        >
-          <ThemedText style={styles.primaryButtonText}>
-            Créer un compte
-          </ThemedText>
-        </TouchableOpacity>
+        />
 
         <View style={styles.loginContainer}>
           <ThemedText style={styles.loginText}>Déjà inscrit ? </ThemedText>
@@ -74,23 +73,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     gap: 24,
     paddingBottom: 40,
-  },
-  primaryButton: {
-    backgroundColor: Colors.light.primary,
-    height: 56,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: Colors.light.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  primaryButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   loginContainer: {
     flexDirection: "row",

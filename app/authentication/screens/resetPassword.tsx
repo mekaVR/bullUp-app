@@ -1,9 +1,10 @@
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
+import GluestackButton from "@/components/ui/GluestackButton";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -35,11 +36,12 @@ export default function ResetPassword() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <ThemedText style={styles.submitButtonText}>
-            Envoyer le lien
-          </ThemedText>
-        </TouchableOpacity>
+        <GluestackButton
+          title="Envoyer le lien"
+          variant="primary"
+          size="md"
+          onPress={handleSubmit}
+        />
       </View>
     </View>
   );
@@ -84,17 +86,5 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 16,
-  },
-  submitButton: {
-    backgroundColor: Colors.light.primary,
-    height: 50,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  submitButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });
