@@ -15,6 +15,9 @@ import {
 } from "@/app/authentication/contexts/AuthContext";
 import { SplashScreenController } from "@/components/SplashScreenController";
 
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import "@/global.css";
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -27,13 +30,17 @@ export default function RootLayout() {
   }
 
   return (
-    <SessionProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <SplashScreenController />
-        <RootNavigator />
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </SessionProvider>
+    <GluestackUIProvider>
+      <SessionProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <SplashScreenController />
+          <RootNavigator />
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </SessionProvider>
+    </GluestackUIProvider>
   );
 }
 

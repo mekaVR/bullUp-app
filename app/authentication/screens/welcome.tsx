@@ -1,5 +1,4 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
@@ -9,14 +8,14 @@ export default function Welcome() {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      <ThemedView style={styles.titleContainer}>
+      <View style={styles.titleContainer}>
         <ThemedText type="title" style={styles.title}>
           Bienvenue
         </ThemedText>
         <ThemedText style={styles.subtitle}>
           Rejoignez la communauté BullUp
         </ThemedText>
-      </ThemedView>
+      </View>
 
       <View style={styles.buttonsContainer}>
         <GluestackButton
