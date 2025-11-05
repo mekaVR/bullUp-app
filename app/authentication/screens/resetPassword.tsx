@@ -1,56 +1,138 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
-import GluestackButton from "@/components/ui/GluestackButton";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Input, InputField } from "@/components/ui/input";
+import {
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
+  FormControlErrorIcon,
+} from "@/components/ui/form-control";
+import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
+import {
+  InfoIcon,
+  AlertCircleIcon,
+  CheckCircleIcon,
+} from "@/components/ui/icon";
+import { validateEmail } from "../utils";
+import useRequestPasswordReset from "@/app/authentication/hooks/useRequestPasswordReset";
+import { useRouter } from "expo-router";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const router = useRouter();
+  const {
+    mutateAsync: requestPasswordReset,
+    isError,
+    error,
+    isPending,
+    isSuccess,
+  } = useRequestPasswordReset();
 
-  const handleSubmit = () => {
-    // TODO: Implement password reset logic
-    console.log("Reset password for:", email);
+  const handleSubmit = async () => {
+    if (isSuccess) {
+      router.back();
+      return;
+    }
+
+    const emailValidationError = validateEmail(email);
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      return;
+    }
+
+    await requestPasswordReset({ email });
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <BackButon />
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={styles.title}>
           Mot de passe oublié
         </ThemedText>
       </ThemedView>
-      <View style={styles.stepContainer}>
-        <ThemedText style={styles.description}>
-          Entrez votre email pour recevoir le lien de réinitialisation
-        </ThemedText>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="email-address"
-          placeholder="Email"
-          placeholderTextColor="#999"
-        />
-      </View>
+
+      {isError ? (
+        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
+          <AlertIcon as={InfoIcon} />
+          <AlertText>{error?.response?.data?.detail}</AlertText>
+        </Alert>
+      ) : null}
+
+      {isSuccess ? (
+        <View style={styles.successContainer}>
+          <Alert action="success" variant="solid" style={{ marginBottom: 20 }}>
+            <AlertIcon as={CheckCircleIcon} />
+            <AlertText style={styles.successTitle}>Email envoyé !</AlertText>
+          </Alert>
+
+          <ThemedText style={styles.successMessage}>
+            Email de récupération envoyé à{" "}
+            <ThemedText style={styles.emailText}>{email}</ThemedText>
+          </ThemedText>
+
+          <ThemedText style={styles.spamNotice}>
+            N&#39;oubliez pas de vérifier vos spams si vous ne trouvez pas
+            l&#39;email.
+          </ThemedText>
+        </View>
+      ) : (
+        <View style={styles.stepContainer}>
+          <ThemedText style={styles.description}>
+            Entrez votre adresse email pour recevoir un lien de réinitialisation
+          </ThemedText>
+
+          <FormControl isInvalid={Boolean(emailError)}>
+            <Input variant="rounded" size="lg">
+              <InputField
+                onChangeText={(text) => {
+                  setEmail(text);
+                  if (emailError) setEmailError("");
+                }}
+                value={email}
+                keyboardType="email-address"
+                placeholder="Email"
+                placeholderTextColor="#999"
+                autoCapitalize="none"
+                returnKeyType="send"
+                onSubmitEditing={handleSubmit}
+              />
+            </Input>
+            <FormControlError>
+              <FormControlErrorIcon as={AlertCircleIcon} />
+              <FormControlErrorText>{emailError}</FormControlErrorText>
+            </FormControlError>
+          </FormControl>
+        </View>
+      )}
+
       <View style={styles.buttonContainer}>
-        <GluestackButton
-          title="Envoyer le lien"
-          variant="primary"
-          size="md"
+        <Button
+          className="rounded-full"
+          variant="solid"
+          size="lg"
+          action="primary"
+          disabled={isPending}
           onPress={handleSubmit}
-        />
+        >
+          <ButtonText>
+            {isPending ? "Envoi..." : isSuccess ? "Retour" : "Envoyer le lien"}
+          </ButtonText>
+        </Button>
       </View>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
   },
@@ -58,7 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 24,
+    marginBottom: 40,
   },
   title: {
     color: Colors.light.primary,
@@ -74,17 +156,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     opacity: 0.8,
-  },
-  input: {
-    height: 50,
-    borderWidth: 2,
-    borderColor: Colors.light.primary,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: Colors.light.primary,
+    marginBottom: 8,
   },
   buttonContainer: {
     marginBottom: 16,
+  },
+  successContainer: {
+    marginBottom: 32,
+    gap: 16,
+  },
+  successTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  successMessage: {
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 24,
+  },
+  emailText: {
+    fontWeight: "bold",
+    color: Colors.light.primary,
+  },
+  spamNotice: {
+    fontSize: 14,
+    textAlign: "center",
+    opacity: 0.7,
+    fontStyle: "italic",
+    marginTop: 8,
   },
 });

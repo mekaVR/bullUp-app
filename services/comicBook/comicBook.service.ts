@@ -1,43 +1,11 @@
 // eslint-disable-next-line import/no-named-as-default
-import api from "./axios.config";
+import api from "@/app/api/axios.config";
 import { API_ENDPOINTS } from "@/constants/api";
-
-/**
- * Comic Book API Service
- * Handles all comic book-related API calls
- */
-
-interface ComicBook {
-  id: number;
-  title: string;
-  description?: string;
-  author?: string;
-  cover_image?: string;
-  published_date?: string;
-  isbn?: string;
-  pages?: number;
-  publisher?: string;
-  language?: string;
-  rating?: number;
-  created_at?: string;
-  updated_at?: string;
-}
-
-interface ComicBooksListResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: ComicBook[];
-}
-
-interface ComicBookQueryParams {
-  page?: number;
-  page_size?: number;
-  search?: string;
-  author?: string;
-  publisher?: string;
-  ordering?: string;
-}
+import {
+  ComicBook,
+  ComicBookQueryParams,
+  ComicBooksListResponse,
+} from "@/services/comicBook/interfaces/comicBook.interfaces";
 
 export const comicBookService = {
   /**

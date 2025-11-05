@@ -1,41 +1,16 @@
 import { Image } from "expo-image";
-import { Button, Platform, StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { useEffect, useState } from "react";
 import { useSession } from "@/app/authentication/contexts/AuthContext";
-
-interface DATA {
-  count: number;
-  results: [
-    {
-      title: string;
-      id: number;
-    },
-  ];
-}
+import useGetComicBooks from "@/services/comicBook/hooks/useGetComicBooks";
 
 export default function HomeScreen() {
-  const [data, setData] = useState<DATA>();
-  const { signOut } = useSession();
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://192.168.1.10:8000/api/comic-book/");
-      const data = await response.json();
-      setData(data);
-      console.log("data", data);
-    } catch (e) {
-      console.log("e", e);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { logOut } = useSession();
+  const { data } = useGetComicBooks();
 
   return (
     <ParallaxScrollView
@@ -52,13 +27,13 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView>
-        <Button title={"Logout"} onPress={signOut} />
+        <Button title={"Logout"} onPress={logOut} />
       </ThemedView>
       <ThemedText>Liste de BD</ThemedText>
       <ThemedView style={styles.bdList}>
-        {data?.results.map((ouvre) => (
-          <ThemedText key={ouvre.id} type="subtitle">
-            {ouvre.title}
+        {data?.results.map((comicBook) => (
+          <ThemedText key={comicBook.id} type="subtitle">
+            {comicBook.title}
           </ThemedText>
         ))}
       </ThemedView>

@@ -18,6 +18,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        none: "0px",
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "20px",
+        "2xl": "24px",
+        "3xl": "32px",
+        full: "9999px",
+      },
       colors: {
         primary: {
           0: "rgb(var(--color-primary-0)/<alpha-value>)",

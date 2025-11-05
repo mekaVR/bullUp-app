@@ -1,33 +1,16 @@
-// eslint-disable-next-line import/no-named-as-default
-import api from "./axios.config";
+import api from "@/app/api/axios.config";
 import { API_ENDPOINTS } from "@/constants/api";
+import {
+  LoginResponse,
+  RefreshTokenResponse,
+  RegisterResponse,
+  UserExistsResponse,
+} from "@/app/authentication/services/authentication.interfaces";
 
 /**
  * Authentication API Service
  * Handles all authentication-related API calls
  */
-
-interface LoginResponse {
-  access: string;
-  refresh: string;
-}
-
-interface RegisterResponse {
-  id: number;
-  username: string;
-  email: string;
-  access?: string;
-  refresh?: string;
-}
-
-interface UserExistsResponse {
-  exists: boolean;
-  message: string;
-}
-
-interface RefreshTokenResponse {
-  access: string;
-}
 
 export const authenticationService = {
   /**
@@ -99,17 +82,7 @@ export const authenticationService = {
    * @returns Success message
    */
   requestPasswordReset: async (email: string): Promise<{ message: string }> => {
-    const response = await api.post("/auth/password-reset/", { email });
-    return response.data;
-  },
-
-  /**
-   * Verify email address
-   * @param token - Email verification token
-   * @returns Success message
-   */
-  verifyEmail: async (token: string): Promise<{ message: string }> => {
-    const response = await api.post("/auth/verify-email/", { token });
+    const response = await api.post("/password-reset/", { email });
     return response.data;
   },
 };

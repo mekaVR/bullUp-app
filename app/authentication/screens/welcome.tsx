@@ -1,42 +1,46 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import GluestackButton from "@/components/ui/GluestackButton";
+import { ThemedView } from "@/components/ThemedView";
+import { Button, ButtonText } from "@/components/ui/button";
 
 export default function Welcome() {
   const router = useRouter();
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={styles.title}>
           Bienvenue
         </ThemedText>
         <ThemedText style={styles.subtitle}>
           Rejoignez la communauté BullUp
         </ThemedText>
-      </View>
+      </ThemedView>
 
-      <View style={styles.buttonsContainer}>
-        <GluestackButton
-          title="Créer un compte"
-          variant="primary"
+      <ThemedView style={styles.buttonsContainer}>
+        <Button
+          className="rounded-full"
+          variant="solid"
           size="lg"
+          action="primary"
           onPress={() =>
             router.navigate("/authentication/screens/createUsername")
           }
-        />
+        >
+          <ButtonText>Créer un compte</ButtonText>
+        </Button>
 
-        <View style={styles.loginContainer}>
+        <ThemedView style={styles.loginContainer}>
           <ThemedText style={styles.loginText}>Déjà inscrit ? </ThemedText>
           <TouchableOpacity
             onPress={() => router.navigate("/authentication/screens/login")}
           >
             <ThemedText style={styles.loginLink}>Se connecter</ThemedText>
           </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+        </ThemedView>
+      </ThemedView>
+    </ThemedView>
   );
 }
 

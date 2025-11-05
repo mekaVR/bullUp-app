@@ -1,72 +1,85 @@
 import { ThemedView } from "@/components/ThemedView";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
-import { useRouter } from "expo-router";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
-import GluestackButton from "@/components/ui/GluestackButton";
+import useCheckUsernameExists from "@/app/authentication/hooks/useCheckUsernameExist";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Input, InputField } from "@/components/ui/input";
+import {
+  FormControl,
+  FormControlHelper,
+  FormControlHelperText,
+} from "@/components/ui/form-control";
+import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
+import { InfoIcon } from "@/components/ui/icon";
 
 export default function CreateUsername() {
   const [username, onChangeUsername] = useState("");
-  const router = useRouter();
-
-  const getUserExist = async () => {
-    try {
-      const response = await fetch(
-        `http://192.168.1.10:8000/register/get-user-exist/?username=${username}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-      const data: { exists: boolean; message: string } = await response.json();
-      if (data.exists) {
-        return;
-      }
-      router.push({
-        pathname: "/authentication/screens/signUp",
-        params: { username },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const {
+    mutate: onCheckUsernameExist,
+    isError,
+    error,
+    data,
+    isPending,
+  } = useCheckUsernameExists(username);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <BackButon />
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={styles.title}>
           Créez un pseudo
         </ThemedText>
       </ThemedView>
+
+      {data?.exists || isError ? (
+        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
+          <AlertIcon as={InfoIcon} />
+          <AlertText>{data?.message || error?.response?.data.detail}</AlertText>
+        </Alert>
+      ) : null}
+
       <View style={styles.stepContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeUsername}
-          value={username?.toLowerCase()}
-          placeholder="Nom d'utilisateur"
-          placeholderTextColor="#999"
-        />
+        <FormControl>
+          <Input variant="rounded" size="lg">
+            <InputField
+              onChangeText={onChangeUsername}
+              value={username?.toLowerCase().trim()}
+              placeholder="Nom d'utilisateur"
+              placeholderTextColor="#999"
+              autoCapitalize="none"
+              returnKeyType="done"
+              onSubmitEditing={() => onCheckUsernameExist({ username })}
+            />
+          </Input>
+          <FormControlHelper>
+            <FormControlHelperText>
+              Le pseudo doit comporter au moins 2 caractères
+            </FormControlHelperText>
+          </FormControlHelper>
+        </FormControl>
       </View>
       <View style={styles.buttonContainer}>
-        <GluestackButton
-          title="Continuer"
-          variant="primary"
-          size="md"
-          disabled={!Boolean(username)}
-          onPress={getUserExist}
-        />
+        <Button
+          className="rounded-full"
+          variant="solid"
+          size="lg"
+          action="primary"
+          isDisabled={username.trim().length < 2 || isPending}
+          onPress={() => onCheckUsernameExist({ username })}
+        >
+          <ButtonText>{isPending ? "Vérification..." : "Continuer"}</ButtonText>
+        </Button>
       </View>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
   },
@@ -74,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 40,
+    marginBottom: 32,
   },
   title: {
     color: Colors.light.primary,
@@ -82,17 +95,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   stepContainer: {
-    gap: 16,
     marginBottom: 32,
-  },
-  input: {
-    height: 50,
-    borderWidth: 2,
-    borderColor: Colors.light.primary,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: Colors.light.primary,
   },
   buttonContainer: {
     marginBottom: 16,
