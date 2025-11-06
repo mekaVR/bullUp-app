@@ -2,11 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { useState, useRef } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useSession } from "@/app/authentication/contexts/AuthContext";
+import { useSession } from "@/contexts/AuthContext";
 import { Link } from "expo-router";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
-import useLogin from "@/app/authentication/hooks/useLogin";
+import useLogin from "@/hooks/authentication/useLogin";
 import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
 import {
   EyeIcon,
@@ -131,10 +131,7 @@ export default function Login() {
           </FormControlError>
         </FormControl>
 
-        <Link
-          style={styles.forgotPasswordLink}
-          href={"/authentication/screens/resetPassword"}
-        >
+        <Link style={styles.forgotPasswordLink} href={"/(auth)/reset-password"}>
           <ThemedText style={styles.forgotPasswordText}>
             Mot de passe oublié ?
           </ThemedText>

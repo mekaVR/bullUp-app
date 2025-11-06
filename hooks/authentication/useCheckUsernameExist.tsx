@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import AuthenticationService from "@/app/authentication/services/authentication.service";
+import AuthenticationService from "@/services/authentication/authentication.service";
 import { AxiosError } from "axios";
 import { useRouter } from "expo-router";
-import { ApiErrorDetail } from "@/app/authentication/services/authentication.interfaces";
+import { ApiErrorDetail } from "@/services/authentication/authentication.interfaces";
 
 export default function useCheckUsernameExists(username: string) {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function useCheckUsernameExists(username: string) {
         return;
       }
       router.push({
-        pathname: "/authentication/screens/register",
+        pathname: "/(auth)/register",
         params: { username },
       });
     },

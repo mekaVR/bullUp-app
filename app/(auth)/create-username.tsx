@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
-import useCheckUsernameExists from "@/app/authentication/hooks/useCheckUsernameExist";
+import useCheckUsernameExists from "@/hooks/authentication/useCheckUsernameExist";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Input, InputField } from "@/components/ui/input";
 import {

@@ -4,16 +4,16 @@
  */
 
 // Main axios instance
-export { default as api, clearTokens } from "@/app/api/axios.config";
+export { default as api, clearTokens } from "@/services/api/axios.config";
 
 // Authentication Service
-export { authenticationService } from "@/app/authentication/services/authentication.service";
+export { authenticationService } from "@/services/authentication/authentication.service";
 
 // Comic Book Service
 export { comicBookService } from "./comicBook/comicBook.service";
 
 // Generic API Service
-export { apiService } from "@/app/api/api.service";
+export { apiService } from "@/services/api/api.service";
 
 // Re-export types (if needed)
 export type { default as AxiosInstance } from "axios";

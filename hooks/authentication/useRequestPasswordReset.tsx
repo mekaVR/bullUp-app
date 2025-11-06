@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import AuthenticationService from "@/app/authentication/services/authentication.service";
+import AuthenticationService from "@/services/authentication/authentication.service";
 import { AxiosError } from "axios";
-import { ApiErrorDetail } from "@/app/authentication/services/authentication.interfaces";
+import { ApiErrorDetail } from "@/services/authentication/authentication.interfaces";
 
 export default function useRequestPasswordReset() {
   return useMutation({

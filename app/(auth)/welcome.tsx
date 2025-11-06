@@ -24,18 +24,14 @@ export default function Welcome() {
           variant="solid"
           size="lg"
           action="primary"
-          onPress={() =>
-            router.navigate("/authentication/screens/createUsername")
-          }
+          onPress={() => router.navigate("/(auth)/create-username")}
         >
           <ButtonText>Créer un compte</ButtonText>
         </Button>
 
         <ThemedView style={styles.loginContainer}>
           <ThemedText style={styles.loginText}>Déjà inscrit ? </ThemedText>
-          <TouchableOpacity
-            onPress={() => router.navigate("/authentication/screens/login")}
-          >
+          <TouchableOpacity onPress={() => router.navigate("/(auth)/login")}>
             <ThemedText style={styles.loginLink}>Se connecter</ThemedText>
           </TouchableOpacity>
         </ThemedView>

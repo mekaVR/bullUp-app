@@ -9,10 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import {
-  SessionProvider,
-  useSession,
-} from "@/app/authentication/contexts/AuthContext";
+import { SessionProvider, useSession } from "@/contexts/AuthContext";
 import { SplashScreenController } from "@/components/SplashScreenController";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
@@ -67,11 +64,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       <Stack.Protected guard={!session}>
-        <Stack.Screen name="authentication/screens/welcome" />
-        <Stack.Screen name="authentication/screens/login" />
-        <Stack.Screen name="authentication/screens/register" />
-        <Stack.Screen name="authentication/screens/createUsername" />
-        <Stack.Screen name="authentication/screens/resetPassword" />
+        <Stack.Screen name="(auth)" />
       </Stack.Protected>
     </Stack>
   );

@@ -1,11 +1,11 @@
-import api from "@/app/api/axios.config";
+import api from "@/services/api/axios.config";
 import { API_ENDPOINTS } from "@/constants/api";
 import {
   LoginResponse,
   RefreshTokenResponse,
   RegisterResponse,
   UserExistsResponse,
-} from "@/app/authentication/services/authentication.interfaces";
+} from "@/services/authentication/authentication.interfaces";
 
 /**
  * Authentication API Service

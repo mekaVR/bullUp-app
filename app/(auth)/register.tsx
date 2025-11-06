@@ -3,10 +3,10 @@ import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, View } from "react-native";
 import { useState, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useSession } from "@/app/authentication/contexts/AuthContext";
+import { useSession } from "@/contexts/AuthContext";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
-import useRegister from "@/app/authentication/hooks/useRegister";
+import useRegister from "@/hooks/authentication/useRegister";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import {
@@ -24,7 +24,7 @@ import {
   InfoIcon,
   AlertCircleIcon,
 } from "@/components/ui/icon";
-import { validateEmail, validatePassword } from "../utils";
+import { validateEmail, validatePassword } from "@/utils/authentication";
 
 export default function Register() {
   const [password, onChangePassword] = useState("");

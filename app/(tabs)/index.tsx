@@ -5,8 +5,8 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { useSession } from "@/app/authentication/contexts/AuthContext";
-import useGetComicBooks from "@/services/comicBook/hooks/useGetComicBooks";
+import { useSession } from "@/contexts/AuthContext";
+import useGetComicBooks from "@/hooks/comickBook/useGetComicBooks";
 
 export default function HomeScreen() {
   const { logOut } = useSession();

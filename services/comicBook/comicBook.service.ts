@@ -1,17 +1,16 @@
-// eslint-disable-next-line import/no-named-as-default
-import api from "@/app/api/axios.config";
+import api from "@/services/api/axios.config";
 import { API_ENDPOINTS } from "@/constants/api";
 import {
   ComicBook,
   ComicBookQueryParams,
   ComicBooksListResponse,
-} from "@/services/comicBook/interfaces/comicBook.interfaces";
+} from "@/services/comicBook/comicBook.interfaces";
 
 export const comicBookService = {
   /**
    * Get all comic books with optional filters
    * @param params - Query parameters for filtering and pagination
-   * @returns Paginated list of comic books
+   * @returns Paginated list of comic booksr
    */
   getComicBooks: async (
     params?: ComicBookQueryParams,

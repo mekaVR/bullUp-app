@@ -18,8 +18,8 @@ import {
   AlertCircleIcon,
   CheckCircleIcon,
 } from "@/components/ui/icon";
-import { validateEmail } from "../utils";
-import useRequestPasswordReset from "@/app/authentication/hooks/useRequestPasswordReset";
+import { validateEmail } from "@/utils/authentication";
+import useRequestPasswordReset from "@/hooks/authentication/useRequestPasswordReset";
 import { useRouter } from "expo-router";
 
 export default function ResetPassword() {
