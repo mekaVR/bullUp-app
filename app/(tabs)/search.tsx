@@ -3,7 +3,7 @@ import { StyleSheet, View, Button, Text, TouchableOpacity } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
 
-export default function TabTwoScreen() {
+export default function Search() {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -28,14 +28,6 @@ export default function TabTwoScreen() {
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
-
-  /*  const onCameraReady = () => {
-    if (!cameraRef.current) {
-      return;
-    }
-    const uri = cameraRef.current.takePictureAsync();
-
-  };*/
 
   return (
     <View style={styles.container}>

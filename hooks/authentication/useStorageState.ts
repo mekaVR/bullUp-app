@@ -20,12 +20,12 @@ export async function setStorageItemAsync(key: string, value: string | null) {
   if (Platform.OS === "web") {
     try {
       if (value === null) {
-        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
       } else {
-        localStorage.setItem(key, value);
+        sessionStorage.setItem(key, value);
       }
     } catch (e) {
-      console.error("Local storage is unavailable:", e);
+      console.error("Session storage is unavailable:", e);
     }
   } else {
     if (value == null) {
@@ -48,11 +48,11 @@ export function useStorageState(key: string): UseStateHook<string> {
   useEffect(() => {
     if (Platform.OS === "web") {
       try {
-        if (typeof localStorage !== "undefined") {
-          setState(localStorage.getItem(key));
+        if (typeof sessionStorage !== "undefined") {
+          setState(sessionStorage.getItem(key)); // Utilise sessionStorage
         }
       } catch (e) {
-        console.error("Local storage is unavailable:", e);
+        console.error("Session storage is unavailable:", e);
       }
     } else {
       SecureStore.getItemAsync(key).then((value) => {
