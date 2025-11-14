@@ -9,6 +9,7 @@ export default function ProfileLayout() {
     >
       <Stack.Screen name={"profile"} />
       <Stack.Screen name={"change-password"} />
+      <Stack.Screen name={"delete-account"} />
     </Stack>
   );
 }

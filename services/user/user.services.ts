@@ -1,7 +1,8 @@
 import api from "@/services/api/axios.config";
 import {
+  ApiResponseMessage,
   ChangePasswordRequest,
-  ChangePasswordResponse,
+  DeleteAccountRequest,
   GetProfileResponse,
   UpdateProfileRequest,
   UpdateProfileResponse,
@@ -45,10 +46,22 @@ export const userServices = {
 
   changePassword: async (
     changePasswordRequest: ChangePasswordRequest,
-  ): Promise<ChangePasswordResponse> => {
-    const response = await api.post<ChangePasswordResponse>(
+  ): Promise<ApiResponseMessage> => {
+    const response = await api.post<ApiResponseMessage>(
       API_ENDPOINTS.USER_CHANGE_PASSWORD,
       changePasswordRequest,
+    );
+    return response.data;
+  },
+
+  deleteAccount: async (
+    password: DeleteAccountRequest,
+  ): Promise<ApiResponseMessage> => {
+    const response = await api.delete<ApiResponseMessage>(
+      API_ENDPOINTS.USER_DELETE_ACCOUNT,
+      {
+        data: password,
+      },
     );
     return response.data;
   },

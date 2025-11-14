@@ -74,6 +74,10 @@ export interface UpdateProfileResponse {
   user: UserProfile;
 }
 
-export interface ChangePasswordResponse {
+export interface ApiResponseMessage {
   message: string;
+}
+
+export interface DeleteAccountRequest {
+  password: string;
 }

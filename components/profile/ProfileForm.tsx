@@ -102,7 +102,7 @@ export default function ProfileForm() {
         variant="outline"
         size="xl"
         action="negative"
-        onPress={() => console.log("")}
+        onPress={() => router.navigate("/(profile)/delete-account")}
       >
         <ButtonText style={{ color: "#b91c1c" }}>
           {"Supprimer mon compte"}

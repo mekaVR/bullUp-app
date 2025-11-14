@@ -20,4 +20,5 @@ export const API_ENDPOINTS = {
   // User
   USER_PROFILE: "/api/users/me/",
   USER_CHANGE_PASSWORD: "/api/users/change-password/",
+  USER_DELETE_ACCOUNT: "/api/users/delete-account/",
 } as const;
