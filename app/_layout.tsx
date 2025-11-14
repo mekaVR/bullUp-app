@@ -21,6 +21,11 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    VaselineExtra: require("../assets/fonts/VaselineExtra-Regular.ttf"),
+    Montserrat: require("../assets/fonts/Montserrat-Regular.ttf"),
+    "Montserrat-Medium": require("../assets/fonts/Montserrat-Medium.ttf"),
+    "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
   });
 
   if (!loaded) {
@@ -30,8 +35,8 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GluestackUIProvider mode="system">
-        <SessionProvider>
+      <SessionProvider>
+        <GluestackUIProvider mode="system">
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
@@ -39,8 +44,8 @@ export default function RootLayout() {
             <RootNavigator />
             <StatusBar style="auto" />
           </ThemeProvider>
-        </SessionProvider>
-      </GluestackUIProvider>
+        </GluestackUIProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 }
@@ -60,6 +65,7 @@ function RootNavigator() {
     >
       <Stack.Protected guard={Boolean(session)}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(profile)" />
         <Stack.Screen name="+not-found" />
       </Stack.Protected>
 

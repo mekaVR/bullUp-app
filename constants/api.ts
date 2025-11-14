@@ -16,4 +16,8 @@ export const API_ENDPOINTS = {
 
   // Comics
   COMIC_BOOKS: "/api/comic-book/",
+
+  // User
+  USER_PROFILE: "/api/users/me/",
+  USER_CHANGE_PASSWORD: "/api/users/change-password/",
 } as const;
