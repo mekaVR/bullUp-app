@@ -164,12 +164,12 @@ api.interceptors.response.use(
           },
         );
 
-        const { access } = response.data;
+        const { access, refresh } = response.data;
 
         // Save new tokens
         await saveTokens({
           access,
-          refresh: tokens.refresh,
+          refresh,
         });
 
         // Update authorization header
