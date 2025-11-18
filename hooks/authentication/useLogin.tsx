@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { authenticationService } from "@/services";
 import { AxiosError } from "axios";
-import { ApiErrorDetail } from "@/services/authentication/authentication.interfaces";
+import { ApiError } from "@/services/api/api.interfaces";
 
 export default function useLogin(setSession: (value: string | null) => void) {
   return useMutation({
@@ -14,6 +14,6 @@ export default function useLogin(setSession: (value: string | null) => void) {
       password: string;
     }) => authenticationService.login(username, password),
     onSuccess: (data) => setSession(JSON.stringify(data)),
-    onError: (error: AxiosError<ApiErrorDetail>) => error,
+    onError: (error: AxiosError<ApiError>) => error.response?.data.error,
   });
 }

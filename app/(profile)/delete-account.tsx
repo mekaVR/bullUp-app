@@ -1,4 +1,3 @@
-import { ThemedView } from "@/components/ThemedView";
 import { VStack } from "@/components/ui/vstack";
 import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
 import { ThemedText } from "@/components/ThemedText";
@@ -10,6 +9,7 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
 import useDeleteAccount from "@/hooks/user/useDeleteAccount";
+import ScreenLayout from "@/components/ScreenLayout";
 
 export default function DeleteAccount() {
   const { mutateAsync: deleteAccount } = useDeleteAccount();
@@ -17,7 +17,7 @@ export default function DeleteAccount() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <ThemedView className={"flex-1 pl-5 pr-5 justify-center"}>
+    <ScreenLayout>
       <BackButon />
       <VStack space="xl">
         <Alert action="error">
@@ -40,9 +40,7 @@ export default function DeleteAccount() {
           <InputField
             value={password}
             placeholder="Confirmer le mot de passe"
-            placeholderTextColor="#999"
             secureTextEntry={!showPassword}
-            autoCapitalize="none"
             returnKeyType="done"
             onChangeText={setPassword}
           />
@@ -50,7 +48,7 @@ export default function DeleteAccount() {
             className="pr-3"
             onPress={() => setShowPassword(!showPassword)}
           >
-            <InputIcon as={showPassword ? EyeOffIcon : EyeIcon} />
+            <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
           </InputSlot>
         </Input>
 
@@ -65,7 +63,7 @@ export default function DeleteAccount() {
           <ButtonText>Supprimer définitivement mon compte</ButtonText>
         </Button>
       </VStack>
-    </ThemedView>
+    </ScreenLayout>
   );
 }
 

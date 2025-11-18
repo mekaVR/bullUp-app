@@ -48,8 +48,8 @@ export default function ProfileForm() {
   };
 
   return (
-    <VStack space="lg">
-      <VStack space={"lg"} className={"items-center"}>
+    <VStack space="xl">
+      <VStack space="xl" className={"items-center"}>
         <Avatar size="xl">
           <AvatarFallbackText>{user?.username}</AvatarFallbackText>
           {(image || user?.avatar) && (
@@ -75,27 +75,25 @@ export default function ProfileForm() {
         </Text>
       </VStack>
       <FormControl>
-        <VStack space={"xs"}>
-          <Textarea size="lg" className="w-full">
-            <TextareaInput
-              placeholder={"Bio"}
-              value={bio ?? ""}
-              onChangeText={setBio}
-              maxLength={150}
-            />
-          </Textarea>
-          <FormControlHelper className={"self-end"}>
-            <FormControlHelperText>{`${bio?.length} / 150`}</FormControlHelperText>
-          </FormControlHelper>
-          <Input className={"my-1"} variant="rounded" size={"xl"}>
-            <InputField
-              type={"text"}
-              placeholder={"Email"}
-              value={email}
-              onChangeText={setEmail}
-            />
-          </Input>
-        </VStack>
+        <Textarea size="lg" className="w-full">
+          <TextareaInput
+            placeholder={"Bio"}
+            value={bio ?? ""}
+            onChangeText={setBio}
+            maxLength={150}
+          />
+        </Textarea>
+        <FormControlHelper className={"self-end"}>
+          <FormControlHelperText>{`${bio?.length} / 150`}</FormControlHelperText>
+        </FormControlHelper>
+        <Input className={"my-1"} variant="rounded" size={"xl"}>
+          <InputField
+            type={"text"}
+            placeholder={"Email"}
+            value={email}
+            onChangeText={setEmail}
+          />
+        </Input>
       </FormControl>
       <Button
         className="rounded-full"

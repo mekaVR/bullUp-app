@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useState, useRef } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -22,6 +22,9 @@ import {
   FormControlErrorText,
   FormControlErrorIcon,
 } from "@/components/ui/form-control";
+import ScreenLayout from "@/components/ScreenLayout";
+import { VStack } from "@/components/ui/vstack";
+import { Typography } from "@/constants/Typography";
 
 export default function Login() {
   const [username, onChangeUsername] = useState("");
@@ -59,25 +62,23 @@ export default function Login() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenLayout>
       <BackButon />
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={styles.title}>
+      <VStack space="xl" className={"w-full"}>
+        <ThemedText type={"title"} style={styles.title}>
           Se connecter
         </ThemedText>
-      </ThemedView>
 
-      {isAuthenticationError ? (
-        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
-          <AlertIcon as={InfoIcon} />
-          <AlertText>
-            {authenticationError.response?.data.detail ||
-              "Une erreur est survenue"}
-          </AlertText>
-        </Alert>
-      ) : null}
+        {isAuthenticationError ? (
+          <Alert action="error" variant="solid">
+            <AlertIcon as={InfoIcon} />
+            <AlertText>
+              {authenticationError.response?.data.error ||
+                "Une erreur est survenue"}
+            </AlertText>
+          </Alert>
+        ) : null}
 
-      <ThemedView style={styles.stepContainer}>
         {/* Username field */}
         <FormControl isInvalid={Boolean(usernameError)}>
           <Input variant="rounded" size="lg">
@@ -86,10 +87,8 @@ export default function Login() {
                 onChangeUsername(text);
                 if (usernameError) setUsernameError("");
               }}
-              value={username}
+              value={username.trim()}
               placeholder="Nom d'utilisateur"
-              placeholderTextColor="#999"
-              autoCapitalize="none"
               returnKeyType="next"
               onSubmitEditing={() => passwordRef.current?.focus()}
             />
@@ -105,16 +104,13 @@ export default function Login() {
           <Input variant="rounded" size="lg">
             <InputField
               ref={passwordRef}
-              type={showPassword ? "text" : "password"}
               onChangeText={(text) => {
                 onChangePassword(text);
                 if (passwordError) setPasswordError("");
               }}
-              value={password}
+              value={password.trim()}
               placeholder="Mot de passe"
-              placeholderTextColor="#999"
               secureTextEntry={!showPassword}
-              autoCapitalize="none"
               returnKeyType="send"
               onSubmitEditing={handleLogin}
             />
@@ -122,7 +118,7 @@ export default function Login() {
               className="pr-3"
               onPress={() => setShowPassword(!showPassword)}
             >
-              <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+              <InputIcon as={showPassword ? EyeOffIcon : EyeIcon} />
             </InputSlot>
           </Input>
           <FormControlError>
@@ -131,59 +127,42 @@ export default function Login() {
           </FormControlError>
         </FormControl>
 
-        <Link style={styles.forgotPasswordLink} href={"/(auth)/reset-password"}>
+        <Link className={"self-center"} href={"/(auth)/reset-password"}>
           <ThemedText style={styles.forgotPasswordText}>
             Mot de passe oublié ?
           </ThemedText>
         </Link>
-      </ThemedView>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          className="rounded-full"
-          variant="solid"
-          size="lg"
-          action="primary"
-          onPress={handleLogin}
-          disabled={isPending}
-        >
-          <ButtonText>{isPending ? "Connexion..." : "Se connecter"}</ButtonText>
-        </Button>
-      </View>
-    </ThemedView>
+        <ThemedView>
+          <Button
+            className="rounded-full"
+            variant="solid"
+            size="lg"
+            action="primary"
+            onPress={handleLogin}
+            disabled={isPending}
+          >
+            <ButtonText>
+              {isPending ? "Connexion..." : "Se connecter"}
+            </ButtonText>
+          </Button>
+        </ThemedView>
+      </VStack>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 14,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 40,
-  },
   title: {
     color: Colors.light.primary,
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  stepContainer: {
-    gap: 16,
-    marginBottom: 32,
-  },
-  buttonContainer: {
-    marginBottom: 16,
+    textAlign: "center",
   },
   forgotPasswordLink: {
     alignSelf: "center",
   },
   forgotPasswordText: {
     color: Colors.light.primary,
-    fontSize: 14,
+    fontSize: Typography.sizes.sm,
     textDecorationLine: "underline",
   },
 });

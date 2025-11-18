@@ -1,10 +1,10 @@
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import ScreenLayout from "@/components/ScreenLayout";
 
 export default function Collection() {
   return (
-    <ThemedView>
+    <ScreenLayout>
       <ThemedText>Collection</ThemedText>
-    </ThemedView>
+    </ScreenLayout>
   );
 }

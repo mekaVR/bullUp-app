@@ -1,6 +1,5 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useState } from "react";
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
@@ -21,6 +20,10 @@ import {
 import { validateEmail } from "@/utils/authentication";
 import useRequestPasswordReset from "@/hooks/authentication/useRequestPasswordReset";
 import { useRouter } from "expo-router";
+import ScreenLayout from "@/components/ScreenLayout";
+import { VStack } from "@/components/ui/vstack";
+import { Typography } from "@/constants/Typography";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -50,69 +53,66 @@ export default function ResetPassword() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenLayout>
       <BackButon />
-      <ThemedView style={styles.titleContainer}>
+      <VStack space={"xl"}>
         <ThemedText type="title" style={styles.title}>
           Mot de passe oublié
         </ThemedText>
-      </ThemedView>
 
-      {isError ? (
-        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
-          <AlertIcon as={InfoIcon} />
-          <AlertText>{error?.response?.data?.detail}</AlertText>
-        </Alert>
-      ) : null}
-
-      {isSuccess ? (
-        <View style={styles.successContainer}>
-          <Alert action="success" variant="solid" style={{ marginBottom: 20 }}>
-            <AlertIcon as={CheckCircleIcon} />
-            <AlertText style={styles.successTitle}>Email envoyé !</AlertText>
+        {isError ? (
+          <Alert action="error" variant="solid">
+            <AlertIcon as={InfoIcon} />
+            <AlertText>{error?.response?.data?.email?.error}</AlertText>
           </Alert>
+        ) : null}
 
-          <ThemedText style={styles.successMessage}>
-            Email de récupération envoyé à{" "}
-            <ThemedText style={styles.emailText}>{email}</ThemedText>
-          </ThemedText>
+        {isSuccess ? (
+          <>
+            <Alert action="success" variant="solid">
+              <AlertIcon as={CheckCircleIcon} />
+              <AlertText style={styles.successTitle}>Email envoyé !</AlertText>
+            </Alert>
 
-          <ThemedText style={styles.spamNotice}>
-            N&#39;oubliez pas de vérifier vos spams si vous ne trouvez pas
-            l&#39;email.
-          </ThemedText>
-        </View>
-      ) : (
-        <View style={styles.stepContainer}>
-          <ThemedText style={styles.description}>
-            Entrez votre adresse email pour recevoir un lien de réinitialisation
-          </ThemedText>
+            <ThemedText style={styles.successText}>
+              Email de récupération envoyé à{" "}
+              <ThemedText style={styles.emailText}>{email}</ThemedText>
+            </ThemedText>
 
-          <FormControl isInvalid={Boolean(emailError)}>
-            <Input variant="rounded" size="lg">
-              <InputField
-                onChangeText={(text) => {
-                  setEmail(text);
-                  if (emailError) setEmailError("");
-                }}
-                value={email}
-                keyboardType="email-address"
-                placeholder="Email"
-                placeholderTextColor="#999"
-                autoCapitalize="none"
-                returnKeyType="send"
-                onSubmitEditing={handleSubmit}
-              />
-            </Input>
-            <FormControlError>
-              <FormControlErrorIcon as={AlertCircleIcon} />
-              <FormControlErrorText>{emailError}</FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        </View>
-      )}
+            <ThemedText style={styles.spamNotice}>
+              N&#39;oubliez pas de vérifier vos spams si vous ne trouvez pas
+              l&#39;email.
+            </ThemedText>
+          </>
+        ) : (
+          <ThemedView>
+            <ThemedText style={styles.descriptionText}>
+              Entrez votre adresse email pour recevoir un lien de
+              réinitialisation
+            </ThemedText>
 
-      <View style={styles.buttonContainer}>
+            <FormControl isInvalid={Boolean(emailError)}>
+              <Input variant="rounded" size="lg">
+                <InputField
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (emailError) setEmailError("");
+                  }}
+                  value={email.trim()}
+                  keyboardType="email-address"
+                  placeholder="Email"
+                  returnKeyType="send"
+                  onSubmitEditing={handleSubmit}
+                />
+              </Input>
+              <FormControlError>
+                <FormControlErrorIcon as={AlertCircleIcon} />
+                <FormControlErrorText>{emailError}</FormControlErrorText>
+              </FormControlError>
+            </FormControl>
+          </ThemedView>
+        )}
+
         <Button
           className="rounded-full"
           variant="solid"
@@ -125,64 +125,35 @@ export default function ResetPassword() {
             {isPending ? "Envoi..." : isSuccess ? "Retour" : "Envoyer le lien"}
           </ButtonText>
         </Button>
-      </View>
-    </ThemedView>
+      </VStack>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 40,
-  },
   title: {
-    color: Colors.light.primary,
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  stepContainer: {
-    gap: 16,
-    marginBottom: 32,
-  },
-  description: {
-    color: Colors.light.primary,
-    fontSize: 16,
     textAlign: "center",
-    opacity: 0.8,
-    marginBottom: 8,
+    color: Colors.light.primary,
   },
-  buttonContainer: {
-    marginBottom: 16,
-  },
-  successContainer: {
-    marginBottom: 32,
-    gap: 16,
+  successText: {
+    color: Colors.light.primary,
   },
   successTitle: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: Typography.sizes.lg,
   },
-  successMessage: {
-    fontSize: 16,
+  descriptionText: {
     textAlign: "center",
-    lineHeight: 24,
+    color: Colors.light.primary,
+    marginBottom: 15,
   },
   emailText: {
     fontWeight: "bold",
     color: Colors.light.primary,
   },
   spamNotice: {
-    fontSize: 14,
     textAlign: "center",
     opacity: 0.7,
     fontStyle: "italic",
-    marginTop: 8,
   },
 });

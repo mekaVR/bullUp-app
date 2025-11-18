@@ -1,26 +1,31 @@
 import BackButon from "@/components/ui/BackButton";
-import { ThemedView } from "@/components/ThemedView";
 import { useSession } from "@/contexts/AuthContext";
 import { Button, ButtonText } from "@/components/ui/button";
-import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import ProfileForm from "@/components/profile/ProfileForm";
 import useKeyboardIsVisible from "@/hooks/useKeyboardIsVisible";
+import ScreenLayout from "@/components/ScreenLayout";
 
 export default function Profile() {
   const { logOut } = useSession();
   const isKeyboardVisible = useKeyboardIsVisible();
 
   return (
-    <ThemedView className={"flex-1 pl-5 pr-5 justify-center"}>
+    <ScreenLayout>
       <BackButon />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className={"flex-grow-1 justify-center"}
+        className={"flex-grow-1 justify-center w-full"}
       >
         <ScrollView
           scrollEnabled={isKeyboardVisible}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+          contentContainerStyle={styles.scrollView}
           showsVerticalScrollIndicator={false}
         >
           <ProfileForm />
@@ -35,6 +40,13 @@ export default function Profile() {
       >
         <ButtonText>{"Se déconnecter"}</ButtonText>
       </Button>
-    </ThemedView>
+    </ScreenLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+});

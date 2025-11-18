@@ -1,5 +1,4 @@
-import { ThemedView } from "@/components/ThemedView";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import BackButon from "@/components/ui/BackButton";
@@ -14,6 +13,8 @@ import {
 } from "@/components/ui/form-control";
 import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
 import { InfoIcon } from "@/components/ui/icon";
+import ScreenLayout from "@/components/ScreenLayout";
+import { VStack } from "@/components/ui/vstack";
 
 export default function CreateUsername() {
   const [username, onChangeUsername] = useState("");
@@ -26,30 +27,28 @@ export default function CreateUsername() {
   } = useCheckUsernameExists(username);
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenLayout>
       <BackButon />
-      <ThemedView style={styles.titleContainer}>
+      <VStack space="xl" className={"justify-center items-center w-full"}>
         <ThemedText type="title" style={styles.title}>
           Créez un pseudo
         </ThemedText>
-      </ThemedView>
 
-      {data?.exists || isError ? (
-        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
-          <AlertIcon as={InfoIcon} />
-          <AlertText>{data?.message || error?.response?.data.detail}</AlertText>
-        </Alert>
-      ) : null}
+        {data?.exists || isError ? (
+          <Alert action="error" variant="solid" className={"w-full"}>
+            <AlertIcon as={InfoIcon} />
+            <AlertText>
+              {data?.message || error?.response?.data.detail}
+            </AlertText>
+          </Alert>
+        ) : null}
 
-      <View style={styles.stepContainer}>
         <FormControl>
-          <Input variant="rounded" size="lg">
+          <Input variant="rounded" size="lg" className={"w-full"}>
             <InputField
               onChangeText={onChangeUsername}
-              value={username?.toLowerCase().trim()}
+              value={username.trim()}
               placeholder="Nom d'utilisateur"
-              placeholderTextColor="#999"
-              autoCapitalize="none"
               returnKeyType="done"
               onSubmitEditing={() => onCheckUsernameExist({ username })}
             />
@@ -60,10 +59,8 @@ export default function CreateUsername() {
             </FormControlHelperText>
           </FormControlHelper>
         </FormControl>
-      </View>
-      <View style={styles.buttonContainer}>
         <Button
-          className="rounded-full"
+          className="rounded-full w-full"
           variant="solid"
           size="lg"
           action="primary"
@@ -72,32 +69,14 @@ export default function CreateUsername() {
         >
           <ButtonText>{isPending ? "Vérification..." : "Continuer"}</ButtonText>
         </Button>
-      </View>
-    </ThemedView>
+      </VStack>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 32,
-  },
   title: {
     color: Colors.light.primary,
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  stepContainer: {
-    marginBottom: 32,
-  },
-  buttonContainer: {
-    marginBottom: 16,
+    textAlign: "center",
   },
 });

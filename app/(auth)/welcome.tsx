@@ -4,21 +4,20 @@ import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { Button, ButtonText } from "@/components/ui/button";
+import ScreenLayout from "@/components/ScreenLayout";
+import LogoBullUP from "@/components/LogoBullUp";
+import { Typography } from "@/constants/Typography";
 
 export default function Welcome() {
   const router = useRouter();
   return (
-    <ThemedView style={styles.container}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={styles.title}>
-          Bienvenue
-        </ThemedText>
-        <ThemedText style={styles.subtitle}>
-          Rejoignez la communauté BullUp
-        </ThemedText>
+    <ScreenLayout>
+      <ThemedView className={"flex-1 justify-center items-center gap-5"}>
+        <LogoBullUP size={Typography.sizes["7xl"]} />
+        <ThemedText style={styles.subtitle}>Rejoignez la communauté</ThemedText>
       </ThemedView>
 
-      <ThemedView style={styles.buttonsContainer}>
+      <ThemedView className={"gap-6 pb-12 w-full"}>
         <Button
           className="rounded-full"
           variant="solid"
@@ -29,62 +28,31 @@ export default function Welcome() {
           <ButtonText>Créer un compte</ButtonText>
         </Button>
 
-        <ThemedView style={styles.loginContainer}>
+        <ThemedView className={"flex-row justify-center items-center"}>
           <ThemedText style={styles.loginText}>Déjà inscrit ? </ThemedText>
           <TouchableOpacity onPress={() => router.navigate("/(auth)/login")}>
             <ThemedText style={styles.loginLink}>Se connecter</ThemedText>
           </TouchableOpacity>
         </ThemedView>
       </ThemedView>
-    </ThemedView>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    padding: 24,
-    justifyContent: "space-between",
-  },
-  titleContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 16,
-    paddingTop: 20,
-  },
-  title: {
-    color: Colors.light.primary,
-    fontSize: 40,
-    fontWeight: "bold",
-    textAlign: "center",
-    lineHeight: 52,
-    paddingVertical: 8,
-  },
   subtitle: {
     color: Colors.light.primary,
-    fontSize: 18,
+    fontSize: Typography.sizes.lg,
     textAlign: "center",
     opacity: 0.8,
   },
-  buttonsContainer: {
-    gap: 24,
-    paddingBottom: 40,
-  },
-  loginContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   loginText: {
     color: Colors.light.primary,
-    fontSize: 16,
+    fontSize: Typography.sizes.base,
   },
   loginLink: {
     color: Colors.light.primary,
-    fontSize: 16,
+    fontSize: Typography.sizes.base,
     fontWeight: "bold",
     textDecorationLine: "underline",
   },

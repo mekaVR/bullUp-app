@@ -1,12 +1,13 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import ScreenLayout from "@/components/ScreenLayout";
 
 export default function HomeScreen() {
   return (
-    <ThemedView className={"flex-1 pl-5 pr-5 justify-center"}>
+    <ScreenLayout>
       <ThemedView className={"flex-row items-center gap-8"}>
         <ThemedText type="title">Welcome!</ThemedText>
       </ThemedView>
-    </ThemedView>
+    </ScreenLayout>
   );
 }

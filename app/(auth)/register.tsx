@@ -1,6 +1,5 @@
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useState, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useSession } from "@/contexts/AuthContext";
@@ -25,6 +24,8 @@ import {
   AlertCircleIcon,
 } from "@/components/ui/icon";
 import { validateEmail, validatePassword } from "@/utils/authentication";
+import ScreenLayout from "@/components/ScreenLayout";
+import { VStack } from "@/components/ui/vstack";
 
 export default function Register() {
   const [password, onChangePassword] = useState("");
@@ -78,22 +79,20 @@ export default function Register() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ScreenLayout>
       <BackButon />
-      <ThemedView style={styles.titleContainer}>
+      <VStack space={"xl"}>
         <ThemedText type="title" style={styles.title}>
           Inscription
         </ThemedText>
-      </ThemedView>
 
-      {isError ? (
-        <Alert action="error" variant="solid" style={{ marginBottom: 10 }}>
-          <AlertIcon as={InfoIcon} />
-          <AlertText>{registerError.response?.data.detail}</AlertText>
-        </Alert>
-      ) : null}
+        {isError ? (
+          <Alert action="error" variant="solid">
+            <AlertIcon as={InfoIcon} />
+            <AlertText>{registerError.response?.data.detail}</AlertText>
+          </Alert>
+        ) : null}
 
-      <View style={styles.stepContainer}>
         {/* Email field */}
         <FormControl isInvalid={Boolean(emailError)}>
           <Input variant="rounded" size="lg">
@@ -102,11 +101,9 @@ export default function Register() {
                 setEmail(text);
                 if (emailError) setEmailError("");
               }}
-              value={email}
+              value={email.trim()}
               keyboardType="email-address"
               placeholder="Email"
-              placeholderTextColor="#999"
-              autoCapitalize="none"
               returnKeyType="next"
               onSubmitEditing={() => passwordRef.current?.focus()}
             />
@@ -122,16 +119,13 @@ export default function Register() {
           <Input variant="rounded" size="lg">
             <InputField
               ref={passwordRef}
-              type={showPassword ? "text" : "password"}
               onChangeText={(text) => {
                 onChangePassword(text);
                 if (passwordError) setPasswordError("");
               }}
-              value={password}
+              value={password.trim()}
               placeholder="Mot de passe"
-              placeholderTextColor="#999"
               secureTextEntry={!showPassword}
-              autoCapitalize="none"
               returnKeyType="next"
               onSubmitEditing={() => verifyPasswordRef.current?.focus()}
             />
@@ -139,7 +133,7 @@ export default function Register() {
               className="pr-3"
               onPress={() => setShowPassword(!showPassword)}
             >
-              <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+              <InputIcon as={showPassword ? EyeOffIcon : EyeIcon} />
             </InputSlot>
           </Input>
           <FormControlError>
@@ -159,16 +153,13 @@ export default function Register() {
           <Input variant="rounded" size="lg">
             <InputField
               ref={verifyPasswordRef}
-              type={showVerifyPassword ? "text" : "password"}
               onChangeText={(text) => {
                 onChangeVerifyPassword(text);
                 if (verifyPasswordError) setVerifyPasswordError("");
               }}
-              value={verifyPassword}
+              value={verifyPassword.trim()}
               placeholder="Confirmer mot de passe"
-              placeholderTextColor="#999"
               secureTextEntry={!showVerifyPassword}
-              autoCapitalize="none"
               returnKeyType="send"
               onSubmitEditing={handleRegister}
             />
@@ -176,7 +167,7 @@ export default function Register() {
               className="pr-3"
               onPress={() => setShowVerifyPassword(!showVerifyPassword)}
             >
-              <InputIcon as={showVerifyPassword ? EyeIcon : EyeOffIcon} />
+              <InputIcon as={showVerifyPassword ? EyeOffIcon : EyeIcon} />
             </InputSlot>
           </Input>
           <FormControlError>
@@ -184,9 +175,7 @@ export default function Register() {
             <FormControlErrorText>{verifyPasswordError}</FormControlErrorText>
           </FormControlError>
         </FormControl>
-      </View>
 
-      <View style={styles.buttonContainer}>
         <Button
           className="rounded-full"
           variant="solid"
@@ -199,33 +188,14 @@ export default function Register() {
             {isPending ? "Création..." : "Créer un compte"}
           </ButtonText>
         </Button>
-      </View>
-    </ThemedView>
+      </VStack>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 40,
-  },
   title: {
     color: Colors.light.primary,
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  stepContainer: {
-    gap: 16,
-    marginBottom: 32,
-  },
-  buttonContainer: {
-    marginBottom: 16,
+    textAlign: "center",
   },
 });

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import AuthenticationService from "@/services/authentication/authentication.service";
 import { AxiosError } from "axios";
-import { ApiErrorDetail } from "@/services/authentication/authentication.interfaces";
+import { ApiMailError } from "@/services/api/api.interfaces";
 
 export default function useRequestPasswordReset() {
   return useMutation({
@@ -9,6 +9,7 @@ export default function useRequestPasswordReset() {
     mutationFn: ({ email }: { email: string }) =>
       AuthenticationService.requestPasswordReset(email),
     onSuccess: (data) => data,
-    onError: (error: AxiosError<ApiErrorDetail>) => error,
+    onError: (error: AxiosError<ApiMailError>) =>
+      error?.response?.data.email.error,
   });
 }

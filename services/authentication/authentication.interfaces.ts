@@ -19,7 +19,3 @@ export interface UserExistsResponse {
 export interface RefreshTokenResponse {
   access: string;
 }
-
-export interface ApiErrorDetail {
-  detail: string;
-}

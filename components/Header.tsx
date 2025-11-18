@@ -3,30 +3,21 @@ import {
   AvatarFallbackText,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
 import { Typography } from "@/constants/Typography";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { useRouter } from "expo-router";
 import { useSession } from "@/contexts/AuthContext";
+import LogoBullUP from "@/components/LogoBullUp";
 
 export default function Header() {
-  const colorScheme = useColorScheme();
   const router = useRouter();
   const { user } = useSession();
 
   return (
     <ThemedView className={"h-40 p-5"}>
       <View className={"justify-between items-center flex-1 flex-row pt-20"}>
-        <Text
-          style={[
-            styles.logo,
-            { color: Colors[colorScheme ?? "light"].primary },
-          ]}
-        >
-          BullUp
-        </Text>
+        <LogoBullUP size={Typography.sizes["4xl"]} />
         <TouchableOpacity
           onPress={() => {
             router.navigate("/profile");
@@ -47,10 +38,3 @@ export default function Header() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  logo: {
-    fontFamily: Typography.fonts.logo,
-    fontSize: Typography.sizes["4xl"],
-  },
-});
