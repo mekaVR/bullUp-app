@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# BullUp 📚
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Application mobile pour suivre les dernières sorties de BD et gérer votre collection.
 
-## Get started
+## 📱 Features
 
-1. Install dependencies
+- **Actualités** : Suivez les dernières sorties de bandes dessinées
+- **Collection** : Gérez votre bibliothèque personnelle
+- **Wishlist** : Sauvegardez vos prochains achats
+- **Recherche** : Trouvez rapidement une BD
+- **Profil** : Personnalisez votre compte
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Stack Technique
 
-2. Start the app
+- **Framework** : React Native + Expo
+- **Language** : TypeScript
+- **UI Library** : Gluestack-UI v3
+- **Styling** : NativeWind (Tailwind CSS)
+- **State Management** : React Query
+- **Navigation** : Expo Router
+- **HTTP Client** : Axios
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## 🚀 Installation
 
 ```bash
-npm run reset-project
+# Cloner le repo
+git clone https://github.com/your-username/bullup-app.git
+
+# Installer les dépendances
+cd bullup-app
+npm install
+
+# Lancer l'app
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📂 Structure du Projet
 
-## Learn more
+```
+bullup-app/
+├── app/                    # Routes (Expo Router)
+│   ├── (auth)/            # Écrans d'authentification
+│   ├── (tabs)/            # Navigation principale
+│   └── (profile)/         # Gestion du profil
+├── components/            # Composants réutilisables
+├── constants/             # Couleurs, Typography, API
+├── contexts/              # Context React (Auth)
+├── hooks/                 # Custom hooks
+├── services/              # Services API
+└── utils/                 # Fonctions utilitaires
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🎨 Fonts
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- **Interface** : Montserrat
+- **Logo** : Vaseline Extra
+- **Code** : Space Mono
 
-## Join the community
+## 📝 Scripts
 
-Join our community of developers creating universal apps.
+```bash
+npm start              # Lancer Metro bundler
+npm run android        # Lancer sur Android
+npm run ios            # Lancer sur iOS
+npm run web            # Lancer sur Web
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🔑 Variables d'Environnement
+
+Créer un fichier `.env` à la racine :
+
+```env
+API_BASE_URL=https://your-api.com
+```
+
+## 📄 License
+
+MIT
+
+## 👤 Auteur
+
+**Meka**
+
+---
+
+💙 Développé avec passion pour les amateurs de bandes dessinées
