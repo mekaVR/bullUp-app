@@ -24,6 +24,7 @@ import ScreenLayout from "@/components/ScreenLayout";
 import { VStack } from "@/components/ui/vstack";
 import { Typography } from "@/constants/Typography";
 import { ThemedView } from "@/components/ThemedView";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -31,8 +32,8 @@ export default function ResetPassword() {
   const router = useRouter();
   const {
     mutateAsync: requestPasswordReset,
-    isError,
-    error,
+    isError: isRequestPasswordResetError,
+    error: requestPasswordResetError,
     isPending,
     isSuccess,
   } = useRequestPasswordReset();
@@ -60,10 +61,13 @@ export default function ResetPassword() {
           Mot de passe oublié
         </ThemedText>
 
-        {isError ? (
+        {isRequestPasswordResetError ? (
           <Alert action="error" variant="solid">
             <AlertIcon as={InfoIcon} />
-            <AlertText>{error?.response?.data?.email?.error}</AlertText>
+            <AlertText>
+              {requestPasswordResetError?.response?.data?.message ??
+                API_DEFAULT_ERROR_MESSAGE}
+            </AlertText>
           </Alert>
         ) : null}
 

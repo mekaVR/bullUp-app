@@ -2,7 +2,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet } from "react-native";
 import { useState, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useSession } from "@/contexts/AuthContext";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
 import useRegister from "@/hooks/authentication/useRegister";
@@ -26,23 +25,23 @@ import {
 import { validateEmail, validatePassword } from "@/utils/authentication";
 import ScreenLayout from "@/components/ScreenLayout";
 import { VStack } from "@/components/ui/vstack";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function Register() {
-  const [password, onChangePassword] = useState("");
-  const [verifyPassword, onChangeVerifyPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [verifyPasswordError, setVerifyPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
-  const { setSession } = useSession();
   const {
     mutateAsync: register,
-    isError,
+    isError: isRegisterError,
     error: registerError,
     isPending,
-  } = useRegister(setSession);
+  } = useRegister();
   const { username } = useLocalSearchParams<{ username: string }>();
 
   const passwordRef = useRef<any>(null);
@@ -86,10 +85,13 @@ export default function Register() {
           Inscription
         </ThemedText>
 
-        {isError ? (
+        {isRegisterError ? (
           <Alert action="error" variant="solid">
             <AlertIcon as={InfoIcon} />
-            <AlertText>{registerError.response?.data.detail}</AlertText>
+            <AlertText>
+              {registerError?.response?.data?.message ??
+                API_DEFAULT_ERROR_MESSAGE}
+            </AlertText>
           </Alert>
         ) : null}
 
@@ -120,7 +122,7 @@ export default function Register() {
             <InputField
               ref={passwordRef}
               onChangeText={(text) => {
-                onChangePassword(text);
+                setPassword(text);
                 if (passwordError) setPasswordError("");
               }}
               value={password.trim()}
@@ -154,7 +156,7 @@ export default function Register() {
             <InputField
               ref={verifyPasswordRef}
               onChangeText={(text) => {
-                onChangeVerifyPassword(text);
+                setVerifyPassword(text);
                 if (verifyPasswordError) setVerifyPasswordError("");
               }}
               value={verifyPassword.trim()}

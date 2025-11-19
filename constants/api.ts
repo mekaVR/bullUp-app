@@ -22,3 +22,5 @@ export const API_ENDPOINTS = {
   USER_CHANGE_PASSWORD: "/api/users/change-password/",
   USER_DELETE_ACCOUNT: "/api/users/delete-account/",
 } as const;
+
+export const API_DEFAULT_ERROR_MESSAGE = "Une erreur est survenue";

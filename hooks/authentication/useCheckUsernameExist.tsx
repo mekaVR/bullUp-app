@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import AuthenticationService from "@/services/authentication/authentication.service";
 import { AxiosError } from "axios";
 import { useRouter } from "expo-router";
-import { ApiErrorDetail } from "@/services/authentication/authentication.interfaces";
+import { ApiError } from "@/services/api/api.interfaces";
 
 export default function useCheckUsernameExists(username: string) {
   const router = useRouter();
@@ -20,6 +20,6 @@ export default function useCheckUsernameExists(username: string) {
         params: { username },
       });
     },
-    onError: (error: AxiosError<ApiErrorDetail>) => error,
+    onError: (error: AxiosError<ApiError>) => error,
   });
 }

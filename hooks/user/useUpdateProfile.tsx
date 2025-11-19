@@ -9,6 +9,7 @@ import { useSession } from "@/contexts/AuthContext";
 import { useToast } from "@/components/ui/toast";
 import ToastComponent from "@/components/ToastComponent";
 import { ApiError } from "@/services/api/api.interfaces";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function useUpdateProfile() {
   const toast = useToast();
@@ -43,7 +44,7 @@ export default function useUpdateProfile() {
         render: ({ id }) => (
           <ToastComponent
             id={id}
-            message={error.response?.data.error ?? "Une erreur est survenue"}
+            message={error.response?.data?.message ?? API_DEFAULT_ERROR_MESSAGE}
             action={"error"}
             variant={"solid"}
           />

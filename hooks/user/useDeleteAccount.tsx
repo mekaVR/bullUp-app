@@ -6,6 +6,7 @@ import ToastComponent from "@/components/ToastComponent";
 import { useToast } from "@/components/ui/toast";
 import { AxiosError } from "axios";
 import { ApiError } from "@/services/api/api.interfaces";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function useDeleteAccount() {
   const toast = useToast();
@@ -36,7 +37,7 @@ export default function useDeleteAccount() {
         render: ({ id }) => (
           <ToastComponent
             id={id}
-            message={error.response?.data.error ?? "Une erreur est survenue"}
+            message={error.response?.data?.message ?? API_DEFAULT_ERROR_MESSAGE}
             action={"error"}
             variant={"solid"}
           />

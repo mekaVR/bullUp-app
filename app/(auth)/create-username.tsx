@@ -15,13 +15,14 @@ import { Alert, AlertText, AlertIcon } from "@/components/ui/alert";
 import { InfoIcon } from "@/components/ui/icon";
 import ScreenLayout from "@/components/ScreenLayout";
 import { VStack } from "@/components/ui/vstack";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function CreateUsername() {
-  const [username, onChangeUsername] = useState("");
+  const [username, setUsername] = useState("");
   const {
-    mutate: onCheckUsernameExist,
-    isError,
-    error,
+    mutate: checkUsernameExist,
+    isError: isCheckUsernameExistError,
+    error: checkUsernameExistError,
     data,
     isPending,
   } = useCheckUsernameExists(username);
@@ -34,11 +35,13 @@ export default function CreateUsername() {
           Créez un pseudo
         </ThemedText>
 
-        {data?.exists || isError ? (
+        {data?.exists || isCheckUsernameExistError ? (
           <Alert action="error" variant="solid" className={"w-full"}>
             <AlertIcon as={InfoIcon} />
             <AlertText>
-              {data?.message || error?.response?.data.detail}
+              {data?.message ??
+                checkUsernameExistError?.response?.data.message ??
+                API_DEFAULT_ERROR_MESSAGE}
             </AlertText>
           </Alert>
         ) : null}
@@ -46,11 +49,11 @@ export default function CreateUsername() {
         <FormControl>
           <Input variant="rounded" size="lg" className={"w-full"}>
             <InputField
-              onChangeText={onChangeUsername}
+              onChangeText={setUsername}
               value={username.trim()}
               placeholder="Nom d'utilisateur"
               returnKeyType="done"
-              onSubmitEditing={() => onCheckUsernameExist({ username })}
+              onSubmitEditing={() => checkUsernameExist({ username })}
             />
           </Input>
           <FormControlHelper>
@@ -65,7 +68,7 @@ export default function CreateUsername() {
           size="lg"
           action="primary"
           isDisabled={username.trim().length < 2 || isPending}
-          onPress={() => onCheckUsernameExist({ username })}
+          onPress={() => checkUsernameExist({ username })}
         >
           <ButtonText>{isPending ? "Vérification..." : "Continuer"}</ButtonText>
         </Button>

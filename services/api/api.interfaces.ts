@@ -1,8 +1,5 @@
 export interface ApiError {
-  error: string;
-  details?: string[] | Record<string, string[]>;
-}
-
-export interface ApiMailError {
-  email: ApiError;
+  message: string;
+  errors: Record<string, string> | null;
+  code: string;
 }

@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { useState, useRef } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useSession } from "@/contexts/AuthContext";
 import { Link } from "expo-router";
 import BackButon from "@/components/ui/BackButton";
 import { Colors } from "@/constants/Colors";
@@ -25,20 +24,20 @@ import {
 import ScreenLayout from "@/components/ScreenLayout";
 import { VStack } from "@/components/ui/vstack";
 import { Typography } from "@/constants/Typography";
+import { API_DEFAULT_ERROR_MESSAGE } from "@/constants/api";
 
 export default function Login() {
-  const [username, onChangeUsername] = useState("");
-  const [password, onChangePassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const { setSession } = useSession();
   const {
     mutateAsync: login,
     isError: isAuthenticationError,
     error: authenticationError,
     isPending,
-  } = useLogin(setSession);
+  } = useLogin();
 
   const passwordRef = useRef<any>(null);
 
@@ -73,8 +72,8 @@ export default function Login() {
           <Alert action="error" variant="solid">
             <AlertIcon as={InfoIcon} />
             <AlertText>
-              {authenticationError.response?.data.error ||
-                "Une erreur est survenue"}
+              {authenticationError?.response?.data?.message ??
+                API_DEFAULT_ERROR_MESSAGE}
             </AlertText>
           </Alert>
         ) : null}
@@ -84,7 +83,7 @@ export default function Login() {
           <Input variant="rounded" size="lg">
             <InputField
               onChangeText={(text) => {
-                onChangeUsername(text);
+                setUsername(text);
                 if (usernameError) setUsernameError("");
               }}
               value={username.trim()}
@@ -105,7 +104,7 @@ export default function Login() {
             <InputField
               ref={passwordRef}
               onChangeText={(text) => {
-                onChangePassword(text);
+                setPassword(text);
                 if (passwordError) setPasswordError("");
               }}
               value={password.trim()}

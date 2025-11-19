@@ -16,6 +16,4 @@ export interface UserExistsResponse {
   message: string;
 }
 
-export interface RefreshTokenResponse {
-  access: string;
-}
+export type RefreshTokenResponse = LoginResponse;
